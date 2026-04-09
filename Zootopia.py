@@ -122,11 +122,11 @@ def main():
     Main orchestration logic: fetch, save, process, generate website, and cleanup.
     Includes input validation for empty strings.
     """
-	target_animal = input("Please enter the animal's name for the website: ").strip()
-
-	if not target_animal:
-		print("Error: Input cannot be empty. Please enter a valid name.")
-		return
+	while True:
+		target_animal = input("Please enter the animal's name for the website: ").strip()
+		if target_animal:
+			break
+		print("Input cannot be empty. Please enter a valid name.")
 
 	target_animal_lower = target_animal.lower()
 	animals_data = fetch_animal_data(target_animal_lower)
@@ -139,6 +139,7 @@ def main():
 	template_content = load_file_content('animals_template.html')
 
 	if not template_content:
+		print("Critical Error: Template file is missing. Aborting.")
 		return
 
 	final_html = template_content.replace("__REPLACE_ANIMALS_INFO__", formatted_animal_text)
